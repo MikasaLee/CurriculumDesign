@@ -1,0 +1,104 @@
+create table Student(
+	StuId int primary key,
+	StuName varchar(8),
+	StuSex enum('男','女') not null,
+	StuBirth date,
+	CollegeId int ,
+	StuGrade int,
+	StuClass int,
+	RoomId int,
+	foreign key(CollegeId) references college(CollegeId),
+	foreign key(RoomId) references room(RoomId)
+);
+
+create table Manager(
+	ManagerId int primary key,
+	ManagerName varchar(8),
+	ManagerSex enum('男','女') not null,
+	ManagerBirth date,
+	DormId int,
+	foreign key(DormId) references Dorm(DormId)
+);
+
+create table College(
+	CollegeId  int primary key,
+	CollegeName varchar(10)
+);
+
+
+create table Dorm(
+	DormId int primary key,
+	DormName varchar(10)
+);
+
+create table LoginStu(
+	StuId int unique,
+	password char(16),
+	foreign key(StuId) references Student(StuId)
+);
+
+create table LoginMan(
+	ManagerId int unique,
+	password char(16),
+	foreign key(ManagerId) references Manager(ManagerId)
+);
+
+create table room(
+	roomId int,
+	
+	DormId int,
+	roomLevel int check (roomLevel>=1 and roomLevel <=5),
+	roomNumber int check (roomNumber>=1 and roomNumber <=18),
+	roomDoor enum('好','坏') not null,
+	roomChair enum('好' ,'坏') not null,
+	roomGlass enum('好','坏') not null,
+	
+	primary key(roomId),
+	foreign key(DormId) references Dorm(DormId)
+);
+
+create table ComeGo(
+	StuId int,
+	CGTime date,
+	CGInfor varchar(30),
+	CGState enum('出','入') not null,
+	primary key(Stuid,CGTime),
+	foreign key(StuId) references Student(StuId)
+);
+
+
+
+
+insert into College values(1,'计算机学院');
+insert into College values(2,'软件学院');
+
+insert into Dorm values(0,'空楼');						//初始化数据
+insert into Dorm values(1,'一号楼');
+insert into Dorm values(2,'二号楼');
+insert into Dorm values(3,'三号楼');
+
+insert into room values(0,0,0,0,'坏','坏','坏');		//初始化数据
+insert into room values(1,1,1,1,'好','好','好');
+insert into room values(2,1,1,2,'好','好','好');
+insert into room values(3,1,1,3,'好','好','好');
+insert into room values(4,1,1,4,'好','好','好');
+insert into room values(5,1,1,5,'好','好','好');
+insert into room values(6,1,1,6,'好','好','好');
+
+insert into student values(2016005993,'李润睿','男','1998-5-9','2',2016,1614,1);
+insert into student values(2016006009,'尤帅吉','男','1998-6-9','2',2016,1614,1);
+insert into student values(2016006007,'薛潇钰','男','1998-8-1','2',2016,1614,3);
+
+insert into LoginStu values(2016005993,'lrr');
+insert into LoginStu values(2016006007,'xxy');
+
+insert into manager values(1,'伞兵一号卢本伟','男','2017-12-15',1);
+insert into manager values(2,'伞兵二号马飞飞','男','2017-12-16',2);
+insert into manager values(3,'伞兵三号大官人','男','2017-12-17',3);
+
+
+insert into LoginMan values(1,'lbw');
+insert into LoginMan values(2,'mff');
+insert into LoginMan values(3,'dgr');
+
+insert into ComeGo values(2016005993,'1998-3-2','asdfasdf','出');
